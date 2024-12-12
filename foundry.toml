@@ -1,6 +1,28 @@
-[profile.default]
-src = "src"
-out = "out"
-libs = ["lib"]
+# Foundry Configuration File
+# Default definitions: https://github.com/gakonst/foundry/blob/b7917fa8491aedda4dd6db53fbb206ea233cd531/config/src/lib.rs#L782
+# See more config options at: https://github.com/gakonst/foundry/tree/master/config
 
-# See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
+# The Default Profile
+[profile.default]
+evm_version = "cancun" # Cancun will be tested in the CI.
+auto_detect_solc = false
+optimizer = true
+optimizer_runs = 10
+gas_limit = 100_000_000 # ETH is 30M, but we use a higher value.
+remappings = [
+    '@layerzerolabs/oapp-evm/=lib/devtools/packages/oapp-evm/',
+    "@layerzerolabs/lz-evm-messagelib-v2/=lib/layerzero-v2/packages/layerzero-v2/evm/messagelib",
+    '@layerzerolabs/lz-evm-protocol-v2/=lib/layerzero-v2/packages/layerzero-v2/evm/protocol',
+    "solidity-bytes-utils/contracts=lib/solidity-bytes-utils/contracts",
+]
+
+[fmt]
+line_length = 100 # While we allow up to 120, we lint at 100 for readability.
+
+[profile.default.fuzz]
+runs = 256
+
+[invariant]
+depth = 15
+runs = 10
+
